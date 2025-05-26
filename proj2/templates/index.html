@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Campus Lost & Found - Home{% endblock %}
+
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Campus Lost & Found</h1>
+            <p>Lost something on campus? Found someone else's belongings? We're here to help reconnect items with their owners.</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('search') }}" class="btn btn-secondary">Search for Items</a>
+                <a href="{{ url_for('report_item') }}" class="btn btn-accent">Report an Item</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works Section -->
+    <section class="container mt-8">
+        <h2 class="text-center">How It Works</h2>
+        <div class="item-grid mt-6">
+            <div class="card">
+                <div class="card-content text-center">
+                    <i class="fas fa-search fa-3x mb-4" style="color: var(--primary);"></i>
+                    <h3>Search</h3>
+                    <p>Browse through items that have been found on campus. Filter by category, location, and date.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content text-center">
+                    <i class="fas fa-clipboard-list fa-3x mb-4" style="color: var(--accent);"></i>
+                    <h3>Report</h3>
+                    <p>Found something? Lost something? Fill out a simple form to report it to our system.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-content text-center">
+                    <i class="fas fa-handshake fa-3x mb-4" style="color: var(--success);"></i>
+                    <h3>Reconnect</h3>
+                    <p>Our system helps match lost items with their owners, facilitating a safe return process.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recently Found Items -->
+    <section class="container mt-8">
+        <div class="dashboard-header">
+            <h2>Recently Found Items</h2>
+            <a href="{{ url_for('search') }}?status=found" class="btn btn-primary">View All</a>
+        </div>
+        
+        <div class="item-grid">
+            {% for item in recently_found_items %}
+                <div class="card" data-id="{{ item.id }}">
+                    <div class="card-image">
+                        {% if item.image_path %}
+                            <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}">
+                        {% else %}
+                            <div class="placeholder-image">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="card-content">
+                        <h3 class="card-title">{{ item.name }}</h3>
+                        <div class="card-meta">
+                            <span><i class="fas fa-map-marker-alt"></i> {{ item.location }}</span>
+                            <span><i class="fas fa-calendar"></i> {{ item.date_found }}</span>
+                        </div>
+                        <p class="card-description">{{ item.description|truncate(100) }}</p>
+                        <a href="{{ url_for('view_item', item_id=item.id) }}" class="btn btn-primary">View Details</a>
+                    </div>
+                    <div class="card-footer">
+                        <span class="badge badge-{{ item.status }}">{{ item.status|upper }}</span>
+                        <span><i class="fas fa-tag"></i> {{ item.category_name }}</span>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-center">No recently found items to display.</p>
+            {% endfor %}
+        </div>
+    </section>
+    
+    <!-- Call to Action -->
+    <section class="container mt-8 mb-8">
+        <div class="card">
+            <div class="card-content text-center">
+                <h2>Can't Find What You're Looking For?</h2>
+                <p class="mb-4">Report your lost item and we'll alert you if someone turns it in.</p>
+                <a href="{{ url_for('report_item') }}" class="btn btn-accent">Report a Lost Item</a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
