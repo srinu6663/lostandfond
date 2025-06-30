@@ -230,47 +230,6 @@ proj2/
     └── profile.html      # User profile
 ```
 
-## 🚀 Deployment
-
-### Heroku Deployment
-
-1. **Install Heroku CLI**
-   ```bash
-   # Download from https://devcenter.heroku.com/articles/heroku-cli
-   ```
-
-2. **Create Heroku App**
-   ```bash
-   heroku create your-app-name
-   ```
-
-3. **Set Environment Variables**
-   ```bash
-   heroku config:set SECRET_KEY=your-secret-key
-   ```
-
-4. **Deploy**
-   ```bash
-   git push heroku main
-   ```
-
-### Local Production Setup
-
-1. **Install Production Server**
-   ```bash
-   pip install gunicorn
-   ```
-
-2. **Run with Gunicorn**
-   ```bash
-   gunicorn --bind 0.0.0.0:5000 app:app
-   ```
-
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
 ## 🙏 Acknowledgments
 
 - **Flask Community** - For the excellent web framework
