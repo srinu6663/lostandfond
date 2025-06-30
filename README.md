@@ -8,7 +8,7 @@ A modern, responsive web application built with Flask that helps campus communit
 
 ## 🌐 **Live Demo**
 
-**🚀 View the application online:** **[https://campus-lost-found.onrender.com](https://campus-lost-found.onrender.com)**
+**🚀 View the application online:** **<a href="https://campus-lost-found.onrender.com" target="_blank">https://campus-lost-found.onrender.com</a>**
 
 ### 🔐 **Admin Access:**
 - **Features:** Full admin dashboard with item approval and management
