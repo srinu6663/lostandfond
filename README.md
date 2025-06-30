@@ -4,7 +4,6 @@ A modern, responsive web application built with Flask that helps campus communit
 
 ![Campus Lost & Found](https://img.shields.io/badge/Flask-2.0+-blue.svg)
 ![Python](https://img.shields.io/badge/Python-3.8+-green.svg)
-![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)
 
 ## ✨ Features
