@@ -6,6 +6,22 @@ A modern, responsive web application built with Flask that helps campus communit
 ![Python](https://img.shields.io/badge/Python-3.8+-green.svg)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)
 
+## 🌐 **Live Demo**
+
+**🚀 View the application online:** **[https://campus-lost-found.onrender.com](https://campus-lost-found.onrender.com)**
+
+### 🔐 **Admin Access:**
+- **Email:** `admin@college.edu`
+- **Password:** `Admin123`
+- **Features:** Full admin dashboard with item approval and management
+
+### 👤 **User Features:**
+- **Register:** Create your own account to report and claim items
+- **Browse:** Search through lost and found items
+- **Report:** Submit lost or found items with photos
+
+---
+
 ## ✨ Features
 
 ### 🎯 Core Functionality
@@ -101,8 +117,8 @@ A modern, responsive web application built with Flask that helps campus communit
 The application uses SQLite for data storage. The database is automatically created when you run `init_db.py`.
 
 **Default Admin Account:**
-- Email: `admin@campus.edu`
-- Password: `admin123`
+- Email: `admin@college.edu`
+- Password: `Admin123`
 
 ## 📋 Usage Guide
 
