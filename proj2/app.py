@@ -7,7 +7,7 @@ import os
 import uuid
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev-secret-key-change-in-production')
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max upload
 app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
@@ -17,7 +17,9 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Database initialization
 def get_db_connection():
-    conn = sqlite3.connect('D:\Python\proj2\instance\database.db')
+    # Use relative path for better portability
+    db_path = os.path.join(os.path.dirname(__file__), 'instance', 'database.db')
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -368,4 +370,9 @@ def init_db_command():
     print('Database initialized.')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Initialize database if it doesn't exist
+    if not os.path.exists(os.path.join(os.path.dirname(__file__), 'instance', 'database.db')):
+        init_db()
+    
+    # Run in debug mode for development, production mode for deployment
+    app.run(debug=os.environ.get('FLASK_ENV') == 'development', host='0.0.0.0', port=int(os.environ.get('PORT', 5000)))
