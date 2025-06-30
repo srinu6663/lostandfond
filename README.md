@@ -266,40 +266,6 @@ proj2/
    gunicorn --bind 0.0.0.0:5000 app:app
    ```
 
-## 🤝 Contributing
-
-We welcome contributions! Please follow these steps:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Commit your changes**
-   ```bash
-   git commit -m "Add amazing feature"
-   ```
-4. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-5. **Open a Pull Request**
-
-### Development Guidelines
-
-- Follow PEP 8 style guide for Python code
-- Use semantic commit messages
-- Add tests for new features
-- Update documentation as needed
-- Ensure responsive design principles
-
-## 🐛 Known Issues
-
-- [ ] File upload progress indicator
-- [ ] Email notifications for claims
-- [ ] Advanced search filters
-- [ ] Bulk item management
-- [ ] Export functionality
 
 ## 📝 License
 
@@ -313,21 +279,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - **Unsplash** - For placeholder images
 - **GitHub** - For hosting and version control
 
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. **Check the Issues page** on GitHub
-2. **Create a new issue** with detailed description
-3. **Contact the maintainer** at lostandfound@campus.edu
-
 ## 🔮 Future Enhancements
 
 - [ ] **Mobile App** - React Native mobile application
 - [ ] **Real-time Chat** - WebSocket-based messaging
 - [ ] **AI-Powered Matching** - Machine learning for item matching
 - [ ] **QR Code Integration** - QR codes for quick item reporting
-- [ ] **Multi-language Support** - Internationalization
 - [ ] **Advanced Analytics** - Detailed reporting and analytics
 - [ ] **Integration APIs** - Third-party service integrations
 
