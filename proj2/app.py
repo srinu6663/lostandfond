@@ -17,7 +17,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 # Database initialization
 def get_db_connection():
-    conn = sqlite3.connect('D:\Python\proj2\instance\database.db')
+    conn = sqlite3.connect(os.path.join('instance', 'database.db'))
     conn.row_factory = sqlite3.Row
     return conn
 
@@ -39,16 +39,17 @@ def allowed_file(filename):
 def index():
     conn = get_db_connection()
     conn.row_factory = sqlite3.Row
-    items = conn.execute('''
+    recently_found_items = conn.execute('''
         SELECT items.*, categories.name AS category_name, users.username
         FROM items
         JOIN categories ON items.category_id = categories.id
         JOIN users ON items.user_id = users.id
-        WHERE approved = 1
+        WHERE approved = 1 AND status = 'found'
         ORDER BY date_found DESC
+        LIMIT 6
     ''').fetchall()
     conn.close()
-    return render_template('index.html', items=items)
+    return render_template('index.html', recently_found_items=recently_found_items)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -116,20 +117,20 @@ def dashboard():
         # Admin sees all items with pending approval
         items = conn.execute(
             '''SELECT items.*, categories.name as category_name, users.username
-               FROM items 
-               JOIN categories ON items.category_id = categories.id
-               JOIN users ON items.user_id = users.id
-               ORDER BY items.created_at DESC'''
+                FROM items 
+                JOIN categories ON items.category_id = categories.id
+                JOIN users ON items.user_id = users.id
+                ORDER BY items.created_at DESC'''
         ).fetchall()
     else:
         # Regular users see their own reported items and all approved items
         items = conn.execute(
             '''SELECT items.*, categories.name as category_name, users.username
-               FROM items 
-               JOIN categories ON items.category_id = categories.id
-               JOIN users ON items.user_id = users.id
-               WHERE items.approved = 1 OR items.user_id = ?
-               ORDER BY items.created_at DESC''',
+                FROM items 
+                JOIN categories ON items.category_id = categories.id
+                JOIN users ON items.user_id = users.id
+                WHERE items.approved = 1 OR items.user_id = ?
+                ORDER BY items.created_at DESC''',
             (session['user_id'],)
         ).fetchall()
     
