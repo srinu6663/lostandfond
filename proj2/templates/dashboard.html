@@ -1,0 +1,149 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - Campus Lost & Found{% endblock %}
+
+{% block content %}
+    <div class="container mt-8 mb-8">
+        <div class="dashboard-header">
+            <h2>Dashboard</h2>
+            <a href="{{ url_for('report_item') }}" class="btn btn-accent">Report New Item</a>
+        </div>
+        
+        <!-- Dashboard Tabs -->
+        <div class="dashboard-tabs">
+            <div class="dashboard-tab active" data-target="my-items">My Items</div>
+            {% if session.get('is_admin') %}
+                <div class="dashboard-tab" data-target="pending-approval">Pending Approval</div>
+            {% endif %}
+            <div class="dashboard-tab" data-target="all-items">All Items</div>
+        </div>
+        
+        <!-- My Items Section -->
+        <div id="my-items" class="dashboard-section">
+            <h3>My Reported Items</h3>
+            <div class="item-grid mt-4">
+                {% set my_items_found = false %}
+                {% for item in items %}
+                    {% if item.user_id == session.get('user_id') %}
+                        {% set my_items_found = true %}
+                        <div class="card" data-id="{{ item.id }}">
+                            <div class="card-image">
+                                {% if item.image_path %}
+                                    <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}">
+                                {% else %}
+                                    <div class="placeholder-image">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">{{ item.name }}</h3>
+                                <div class="card-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ item.location }}</span>
+                                    <span><i class="fas fa-calendar"></i> {{ item.date_found }}</span>
+                                </div>
+                                <p class="card-description">{{ item.description|truncate(100) }}</p>
+                                <a href="{{ url_for('view_item', item_id=item.id) }}" class="btn btn-primary">View Details</a>
+                            </div>
+                            <div class="card-footer">
+                                <span class="badge badge-{{ item.status }} item-status" data-id="{{ item.id }}">{{ item.status|upper }}</span>
+                                <span><i class="fas fa-tag"></i> {{ item.category_name }}</span>
+                            </div>
+                            {% if item.status != 'returned' %}
+                                <button class="btn btn-success btn-return" data-id="{{ item.id }}">Mark as Returned</button>
+                            {% endif %}
+                            {% if not item.approved %}
+                                <span class="badge badge-pending">PENDING APPROVAL</span>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                {% if not my_items_found %}
+                    <p>You haven't reported any items yet.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Pending Approval Section (Admin only) -->
+        {% if session.get('is_admin') %}
+            <div id="pending-approval" class="dashboard-section" style="display: none;">
+                <h3>Items Pending Approval</h3>
+                <div class="item-grid mt-4">
+                    {% set pending_items_found = false %}
+                    {% for item in items %}
+                        {% if not item.approved %}
+                            {% set pending_items_found = true %}
+                            <div class="card" data-id="{{ item.id }}">
+                                <div class="card-image">
+                                    {% if item.image_path %}
+                                        <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}">
+                                    {% else %}
+                                        <div class="placeholder-image">
+                                            <i class="fas fa-image"></i>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="card-content">
+                                    <h3 class="card-title">{{ item.name }}</h3>
+                                    <div class="card-meta">
+                                        <span><i class="fas fa-map-marker-alt"></i> {{ item.location }}</span>
+                                        <span><i class="fas fa-calendar"></i> {{ item.date_found }}</span>
+                                        <span><i class="fas fa-user"></i> {{ item.username }}</span>
+                                    </div>
+                                    <p class="card-description">{{ item.description|truncate(100) }}</p>
+                                    <a href="{{ url_for('view_item', item_id=item.id) }}" class="btn btn-primary">View Details</a>
+                                </div>
+                                <div class="card-footer">
+                                    <span class="badge badge-{{ item.status }}">{{ item.status|upper }}</span>
+                                    <span><i class="fas fa-tag"></i> {{ item.category_name }}</span>
+                                </div>
+                                <div class="admin-controls">
+                                    <button class="btn btn-success btn-approve" data-id="{{ item.id }}">Approve</button>
+                                    <button class="btn btn-danger btn-reject" data-id="{{ item.id }}">Reject</button>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                    {% if not pending_items_found %}
+                        <p>No items pending approval.</p>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+        
+        <!-- All Items Section -->
+        <div id="all-items" class="dashboard-section" style="display: none;">
+            <h3>All Items</h3>
+            <div class="item-grid mt-4">
+                {% for item in items %}
+                    {% if item.approved %}
+                        <div class="card" data-id="{{ item.id }}">
+                            <div class="card-image">
+                                {% if item.image_path %}
+                                    <img src="{{ url_for('static', filename=item.image_path) }}" alt="{{ item.name }}">
+                                {% else %}
+                                    <div class="placeholder-image">
+                                        <i class="fas fa-image"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            <div class="card-content">
+                                <h3 class="card-title">{{ item.name }}</h3>
+                                <div class="card-meta">
+                                    <span><i class="fas fa-map-marker-alt"></i> {{ item.location }}</span>
+                                    <span><i class="fas fa-calendar"></i> {{ item.date_found }}</span>
+                                </div>
+                                <p class="card-description">{{ item.description|truncate(100) }}</p>
+                                <a href="{{ url_for('view_item', item_id=item.id) }}" class="btn btn-primary">View Details</a>
+                            </div>
+                            <div class="card-footer">
+                                <span class="badge badge-{{ item.status }}">{{ item.status|upper }}</span>
+                                <span><i class="fas fa-tag"></i> {{ item.category_name }}</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
