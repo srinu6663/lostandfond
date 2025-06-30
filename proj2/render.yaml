@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: campus-lost-found
+    runtime: python3
+    rootDir: proj2
+    buildCommand: pip install -r requirements_render.txt && python init_db.py
+    startCommand: gunicorn --config gunicorn.conf.py app:app
+    plan: free
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: FLASK_ENV
+        value: production
+      - key: PORT
+        value: 10000
