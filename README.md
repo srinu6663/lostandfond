@@ -11,8 +11,6 @@ A modern, responsive web application built with Flask that helps campus communit
 **🚀 View the application online:** **[https://campus-lost-found.onrender.com](https://campus-lost-found.onrender.com)**
 
 ### 🔐 **Admin Access:**
-- **Email:** `admin@college.edu`
-- **Password:** `Admin123`
 - **Features:** Full admin dashboard with item approval and management
 
 ### 👤 **User Features:**
